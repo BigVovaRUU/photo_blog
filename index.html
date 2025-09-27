@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Photo Gallery</title>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;700&display=swap" rel="stylesheet"/>
+
+  <!-- Tailwind config -->
+  <script src="script.js" defer></script>
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-primary">
+<div class="min-h-screen">
+
+  <!-- HEADER -->
+  <header class="fixed top-0 left-0 right-0 z-10 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <div class="flex items-center space-x-3">
+          <svg class="h-6 w-6 text-primary" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12.001.376a11.624 11.624 0 0 0-11.624 11.624c0 6.417 5.207 11.624 11.624 11.624s11.624-5.207 11.624-11.624S18.418.376 12.001.376zm-2.062 16.97V6.654l-5.32 5.346 5.32 5.346z"></path>
+          </svg>
+          <h1 class="text-xl font-bold text-primary">Jane Doe</h1>
+        </div>
+        <div class="flex items-center space-x-4">
+          <nav class="hidden md:flex items-center space-x-6 text-sm font-medium">
+            <a href="#" class="text-primary hover:opacity-75">Gallery</a>
+            <a href="#" class="text-primary hover:opacity-75">About</a>
+            <a href="#" class="text-primary hover:opacity-75">Contact</a>
+          </nav>
+          <div class="h-10 w-10 rounded-full bg-cover bg-center"
+               style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBdIlg8q6ZHxKuyvcjp-b1MG6F0osJw2qjv1pSTTsY8z_F8QIPjn3gewPL4ZtHrmBHaCrkxi46k0fW6R8srmfBW3Lx45hHcvAygN-sn28NlC3HTi6tc00HipBfZYmNe3IiF89LJV1jRtZslKd3AGg9TBpTJ_MvcvJ2f4KVKNIQTRIf7h6v6wGeFkWZlUjhGP6wBJFzMCspvAjRlDxHi21z5h2jl-Nwp1bwsmR-EWDJXDKHkQvcSxoVwIB5ZzSs6WldCB80oVT5Oqw");'>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main class="pt-16">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div class="masonry-grid">
+        <a class="grid-item group" href="img/img1.png">
+            <img src="img/img1.png" alt="Gallery image 1"
+                class="w-full h-auto rounded-lg transition-transform duration-300 group-hover:scale-105">
+        </a>
+        <a class="grid-item group" href="img/img2.png">
+            <img src="img/img2.png" alt="Gallery image 2"
+                class="w-full h-auto rounded-lg transition-transform duration-300 group-hover:scale-105">
+        </a>
+        <a class="grid-item group" href="img/img3.png">
+            <img src="img/img3.png" alt="Gallery image 3"
+                class="w-full h-auto rounded-lg transition-transform duration-300 group-hover:scale-105">
+        </a>
+        <a class="grid-item group" href="img/img4.png">
+            <img src="img/img4.png" alt="Gallery image 4"
+                class="w-full h-auto rounded-lg transition-transform duration-300 group-hover:scale-105">
+        </a>
+        <a class="grid-item group" href="img/img5.png">
+            <img src="img/img5.png" alt="Gallery image 5"
+                class="w-full h-auto rounded-lg transition-transform duration-300 group-hover:scale-105">
+        </a>
+        <a class="grid-item group" href="img/img6.png">
+            <img src="img/img6.png" alt="Gallery image 6"
+                class="w-full h-auto rounded-lg transition-transform duration-300 group-hover:scale-105">
+        </a>
+        <a class="grid-item group" href="img/img7.png">
+            <img src="img/img7.png" alt="Gallery image 7"
+                class="w-full h-auto rounded-lg transition-transform duration-300 group-hover:scale-105">
+        </a>
+        <a class="grid-item group" href="img/img8.png">
+            <img src="img/img8.png" alt="Gallery image 8"
+                class="w-full h-auto rounded-lg transition-transform duration-300 group-hover:scale-105">
+        </a>
+        <a class="grid-item group" href="img/img9.png">
+            <img src="img/img9.png" alt="Gallery image 9"
+                class="w-full h-auto rounded-lg transition-transform duration-300 group-hover:scale-105">
+        </a>
+        </div>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-background-light dark:bg-background-dark border-t border-primary/10">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div class="flex flex-col items-center space-y-4">
+        <div class="flex space-x-6">
+          <!-- соц. иконки -->
+          <a href="#" class="text-primary hover:opacity-75">
+            <svg aria-hidden="true" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+              <path clip-rule="evenodd"
+                    d="M12.315 2c-4.085 0-4.57.018-6.17.09C4.46.38 3.256 1.05 2.27 2.035c-.984.985-1.654 2.19-1.935 3.875C.247 7.585.23 8.07.23 12.155s.018 4.57.09 6.17c.28 1.684 1.05 2.89 2.035 3.875.985.985 2.19 1.654 3.875 1.935 1.6.073 2.085.09 6.17.09s4.57-.018 6.17-.09c1.684-.28 2.89-1.05 3.875-2.035.985-.985 1.654-2.19 1.935-3.875.073-1.6.09-2.085.09-6.17s-.018-4.57-.09-6.17c-.28-1.684-1.05-2.89-2.035-3.875C20.034 1.05 18.83.38 17.145.295 15.545.247 15.06.23 11.085.23l1.23-.03zM12 7.185c-2.64 0-4.785 2.145-4.785 4.785s2.145 4.785 4.785 4.785 4.785-2.145 4.785-4.785S14.64 7.185 12 7.185zm0 7.755a2.97 2.97 0 110-5.94 2.97 2.97 0 010 5.94zm4.44-8.025a1.11 1.11 0 11-2.22 0 1.11 1.11 0 012.22 0z"
+                    fill-rule="evenodd"></path>
+            </svg>
+          </a>
+          <a href="#" class="text-primary hover:opacity-75">
+            <svg aria-hidden="true" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+              <path
+                d="M22.46 6c-.77.35-1.6.58-2.46.67.88-.53 1.56-1.37 1.88-2.38-.83.49-1.74.85-2.72 1.04C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.98C8.28 9.09 5.11 7.38 3 4.79c-.37.63-.58 1.37-.58 2.15 0 1.49.75 2.81 1.91 3.56-.71-.02-1.37-.22-1.95-.54v.03c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 01-1.94.07 4.28 4.28 0 004 2.98 8.521 8.521 0 01-5.33 1.84c-.34 0-.68-.02-1.02-.06C3.44 20.29 5.7 21 8.12 21 16 21 20.33 14.46 20.33 8.79c0-.21 0-.42-.01-.63.84-.6 1.56-1.36 2.14-2.23z">
+              </path>
+            </svg>
+          </a>
+          <a href="#" class="text-primary hover:opacity-75">
+            <svg aria-hidden="true" class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+              <path clip-rule="evenodd"
+                    d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"
+                    fill-rule="evenodd"></path>
+            </svg>
+          </a>
+        </div>
+        <p class="text-sm text-primary/70">© 2024 Jane Doe Photography. All Rights Reserved.</p>
+      </div>
+    </div>
+  </footer>
+</div>
+</body>
+</html>
