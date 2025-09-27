@@ -13,7 +13,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;700&display=swap" rel="stylesheet"/>
 
-  <!-- Tailwind config -->
+  <!-- Tailwind config + логика -->
   <script src="script.js" defer></script>
 
   <!-- Custom CSS -->
@@ -49,53 +49,36 @@
   <!-- MAIN -->
   <main class="pt-16">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <div class="masonry-grid">
-        <a class="grid-item group" href="img/img1.png">
-            <img src="img/img1.png" alt="Gallery image 1"
-                class="w-full h-auto rounded-lg transition-transform duration-300 group-hover:scale-105">
-        </a>
-        <a class="grid-item group" href="img/img2.png">
-            <img src="img/img2.png" alt="Gallery image 2"
-                class="w-full h-auto rounded-lg transition-transform duration-300 group-hover:scale-105">
-        </a>
-        <a class="grid-item group" href="img/img3.png">
-            <img src="img/img3.png" alt="Gallery image 3"
-                class="w-full h-auto rounded-lg transition-transform duration-300 group-hover:scale-105">
-        </a>
-        <a class="grid-item group" href="img/img4.png">
-            <img src="img/img4.png" alt="Gallery image 4"
-                class="w-full h-auto rounded-lg transition-transform duration-300 group-hover:scale-105">
-        </a>
-        <a class="grid-item group" href="img/img5.png">
-            <img src="img/img5.png" alt="Gallery image 5"
-                class="w-full h-auto rounded-lg transition-transform duration-300 group-hover:scale-105">
-        </a>
-        <a class="grid-item group" href="img/img6.png">
-            <img src="img/img6.png" alt="Gallery image 6"
-                class="w-full h-auto rounded-lg transition-transform duration-300 group-hover:scale-105">
-        </a>
-        <a class="grid-item group" href="img/img7.png">
-            <img src="img/img7.png" alt="Gallery image 7"
-                class="w-full h-auto rounded-lg transition-transform duration-300 group-hover:scale-105">
-        </a>
-        <a class="grid-item group" href="img/img8.png">
-            <img src="img/img8.png" alt="Gallery image 8"
-                class="w-full h-auto rounded-lg transition-transform duration-300 group-hover:scale-105">
-        </a>
-        <a class="grid-item group" href="img/img9.png">
-            <img src="img/img9.png" alt="Gallery image 9"
-                class="w-full h-auto rounded-lg transition-transform duration-300 group-hover:scale-105">
-        </a>
-        </div>
+      <div class="masonry-grid" id="gallery"></div>
     </div>
   </main>
+
+  <!-- Модальное окно -->
+  <div id="modal" class="fixed inset-0 hidden items-center justify-center bg-black/70 z-50">
+    <div class="relative max-w-3xl w-full p-4">
+      <button id="closeModal" class="absolute top-2 right-2 text-white text-2xl">&times;</button>
+      <img id="modalImg" src="" alt="Modal image" class="rounded-lg mx-auto max-h-[80vh]">
+      <div class="mt-4 bg-white dark:bg-background-dark rounded-lg p-4 shadow text-primary">
+        <p id="modalComment" class="mb-3">Комментарий к фото...</p>
+        <div class="flex items-center space-x-4">
+          <button class="like-btn flex items-center space-x-2 px-3 py-1 bg-green-100 text-green-700 rounded hover:bg-green-200">
+            <img src="icon/like.svg" alt="Like" class="w-5 h-5">
+            <span>0</span>
+          </button>
+          <button class="dislike-btn flex items-center space-x-2 px-3 py-1 bg-red-100 text-red-700 rounded hover:bg-red-200">
+            <img src="icon/deslike.svg" alt="Dislike" class="w-5 h-5">
+            <span>0</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- FOOTER -->
   <footer class="bg-background-light dark:bg-background-dark border-t border-primary/10">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div class="flex flex-col items-center space-y-4">
         <div class="flex space-x-6">
-          <!-- соц. иконки -->
           <a href="#" class="text-primary hover:opacity-75">
             <svg aria-hidden="true" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
               <path clip-rule="evenodd"
@@ -113,7 +96,7 @@
           <a href="#" class="text-primary hover:opacity-75">
             <svg aria-hidden="true" class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
               <path clip-rule="evenodd"
-                    d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"
+                    d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773л-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"
                     fill-rule="evenodd"></path>
             </svg>
           </a>
