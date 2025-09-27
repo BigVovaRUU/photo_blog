@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Photo Gallery</title>
 
-  <!-- Tailwind -->
+  <!-- Tailwind CDN -->
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 
-  <!-- Tailwind config -->
+  <!-- Tailwind config (темы/цвета/шрифт) -->
   <script id="tailwind-config">
     tailwind.config = {
       darkMode: "class",
@@ -27,15 +27,15 @@
     }
   </script>
 
-  <!-- Fonts -->
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;700&display=swap" rel="stylesheet"/>
 
-  <!-- Styles -->
+  <!-- Custom CSS -->
   <link rel="stylesheet" href="styles.css"/>
 
-  <!-- Scripts -->
+  <!-- App JS -->
   <script src="script.js" defer></script>
 </head>
 <body class="bg-background-light dark:bg-background-dark font-display text-primary">
@@ -45,28 +45,32 @@
   <header class="fixed top-0 left-0 right-0 z-10 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm border-b border-black/5 dark:border-white/5">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-16">
+        <!-- Бренд -->
         <div class="flex items-center gap-3">
-          <svg class="h-6 w-6 text-primary" viewBox="0 0 24 24" fill="currentColor">
+          <svg class="h-6 w-6 text-primary" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
             <path d="M12 2a10 10 0 1 0 10 10A10.011 10.011 0 0 0 12 2zM12 18a6 6 0 1 1 6-6 6.006 6.006 0 0 1-6 6z"></path>
           </svg>
-          <h1 class="text-xl font-bold">Jane Doe</h1>
+          <h1 class="text-xl font-bold">Photo Gallery</h1>
         </div>
 
+        <!-- Нав / Переключатель темы / Аватар -->
         <div class="flex items-center gap-4">
           <nav class="hidden md:flex items-center gap-6 text-sm font-medium">
-            <a href="#" class="hover:opacity-75">Gallery</a>
-            <a href="#" class="hover:opacity-75">About</a>
-            <a href="#" class="hover:opacity-75">Contact</a>
+            <a class="hover:opacity-75" href="#">Gallery</a>
+            <a class="hover:opacity-75" href="#">About</a>
+            <a class="hover:opacity-75" href="#">Contact</a>
           </nav>
 
           <!-- Переключатель темы -->
-          <button id="themeToggle" class="p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition">
-            <svg id="themeIcon" class="h-5 w-5 text-primary" viewBox="0 0 24 24" fill="currentColor">
+          <button id="themeToggle" class="p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition" aria-label="Toggle theme">
+            <svg id="themeIcon" class="h-5 w-5 text-primary" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <!-- наполнение иконки меняется из JS -->
               <circle cx="12" cy="12" r="5"></circle>
               <path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path>
             </svg>
           </button>
 
+          <!-- Аватар -->
           <div class="h-10 w-10 rounded-full bg-cover bg-center ring-1 ring-black/5 dark:ring-white/10"
                style='background-image:url("https://lh3.googleusercontent.com/aida-public/AB6AXuBdIlg8q6ZHxKuyvcjp-b1MG6F0osJw2qjv1pSTTsY8z_F8QIPjn3gewPL4ZtHrmBHaCrkxi46k0fW6R8srmfBW3Lx45hHcvAygN-sn28NlC3HTi6tc00HipBfZYmNe3IiF89LJV1jRtZslKd3AGg9TBpTJ_MvcvJ2f4KVKNIQTRIf7h6v6wGeFkWZlUjhGP6wBJFzMCspvAjRlDxHi21z5h2jl-Nwp1bwsmR-EWDJXDKHkQvcSxoVwIB5ZzSs6WldCB80oVT5Oqw");'>
           </div>
@@ -78,7 +82,8 @@
   <!-- MAIN -->
   <main class="pt-16">
     <section class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <div id="gallery" class="gallery-grid"></div>
+      <!-- Ровная сетка карточек -->
+      <div id="gallery" class="gallery-grid"><!-- карточки рендерит script.js --></div>
     </section>
   </main>
 
@@ -91,21 +96,16 @@
           <a class="hover:opacity-75" href="#">Twitter</a>
           <a class="hover:opacity-75" href="#">Facebook</a>
         </div>
-        <p class="text-sm/relaxed opacity-70">© 2024 Jane Doe Photography. All Rights Reserved.</p>
+        <p class="text-sm/relaxed opacity-70">© 2024 Photo Gallery. All Rights Reserved.</p>
       </div>
     </div>
   </footer>
 </div>
 
-<!-- MODAL -->
-<div id="modal" class="modal-overlay hidden" aria-hidden="true" role="dialog" aria-modal="true" tabindex="-1">
+<!-- MODAL (оверлей) -->
+<div id="modal" class="modal hidden" aria-hidden="true" role="dialog" aria-modal="true" tabindex="-1">
+  <!-- Внутренний контейнер (карточка) -->
   <div class="modal-dialog">
-    <button id="closeModal" class="modal-close" aria-label="Close">
-      <svg viewBox="0 0 24 24" class="h-6 w-6" fill="currentColor">
-        <path d="M6.225 4.811 4.81 6.225 10.586 12l-5.775 5.775 1.414 1.414L12 13.414l5.775 5.775 1.414-1.414L13.414 12l5.775-5.775-1.414-1.414L12 10.586 6.225 4.811z"></path>
-      </svg>
-    </button>
-
     <div class="modal-card">
       <div class="modal-frame">
         <img id="modalImg" src="" alt="Selected photo" class="fade-in">
@@ -124,11 +124,12 @@
         </div>
       </div>
     </div>
-
-    <!-- Навигация -->
-    <button id="prevPhoto" class="modal-nav left-4">◀</button>
-    <button id="nextPhoto" class="modal-nav right-4">▶</button>
   </div>
+
+  <!-- ВНЕШНИЕ ЭЛЕМЕНТЫ УПРАВЛЕНИЯ (за пределами карточки) -->
+  <button id="prevPhoto" class="modal-nav modal-nav-left" aria-label="Previous photo">◀</button>
+  <button id="nextPhoto" class="modal-nav modal-nav-right" aria-label="Next photo">▶</button>
+  <button id="closeModal" class="modal-close-outside" aria-label="Close">✕</button>
 </div>
 </body>
 </html>
