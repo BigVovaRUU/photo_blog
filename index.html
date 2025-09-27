@@ -104,7 +104,6 @@
 
 <!-- MODAL (оверлей) -->
 <div id="modal" class="modal hidden" aria-hidden="true" role="dialog" aria-modal="true" tabindex="-1">
-  <!-- Внутренний контейнер (карточка) -->
   <div class="modal-dialog">
     <div class="modal-card">
       <div class="modal-frame">
@@ -114,19 +113,17 @@
         <p id="modalComment">Комментарий к фото...</p>
         <div class="photo-actions">
           <button class="like-btn" data-id="">
-            <img src="icon/like.svg" alt="Like">
-            <span>0</span>
+            <img src="icon/like.svg" alt="Like"><span>0</span>
           </button>
           <button class="dislike-btn" data-id="">
-            <img src="icon/deslike.svg" alt="Dislike">
-            <span>0</span>
+            <img src="icon/deslike.svg" alt="Dislike"><span>0</span>
           </button>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- ВНЕШНИЕ ЭЛЕМЕНТЫ УПРАВЛЕНИЯ (за пределами карточки) -->
+  <!-- ВНЕШНИЕ ЭЛЕМЕНТЫ УПРАВЛЕНИЯ -->
   <button id="prevPhoto" class="modal-nav modal-nav-left" aria-label="Previous photo">◀</button>
   <button id="nextPhoto" class="modal-nav modal-nav-right" aria-label="Next photo">▶</button>
   <button id="closeModal" class="modal-close-outside" aria-label="Close">✕</button>

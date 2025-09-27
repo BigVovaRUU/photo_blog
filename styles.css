@@ -127,31 +127,35 @@ body.no-scroll {
 
 .modal-card {
   background: var(--modal-bg-light);
-  padding: 1rem;
   border-radius: 0.75rem;
   max-width: 600px;
   width: 100%;
+  overflow: hidden;
   transition: background 0.3s ease;
 }
 .dark .modal-card {
   background: var(--modal-bg-dark);
 }
 
+/* убрали рамки сверху и по бокам */
 .modal-frame {
-  padding: 6px;
-  background: var(--modal-bg-light);
-  border-radius: 0.5rem;
-  transition: background 0.3s ease;
-}
-.dark .modal-frame {
-  background: var(--modal-bg-dark);
+  background: transparent;
+  padding: 0;
 }
 .modal-frame img {
   display: block;
-  max-height: 65vh;
+  max-height: 70vh;
   width: 100%;
   object-fit: contain;
-  border-radius: 6px;
+  border-radius: 0;
+}
+
+.photo-caption {
+  padding: 0.8rem 1rem 1rem;
+  background: var(--card-light);
+}
+.dark .photo-caption {
+  background: var(--card-dark);
 }
 
 .fade-in {
