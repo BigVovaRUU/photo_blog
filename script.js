@@ -37,8 +37,13 @@ const comments = [
 ];
 
 // Загружаем состояние из localStorage
-let stats = JSON.parse(localStorage.getItem("photoStats")) || 
-            Array.from({ length: images }, () => ({ likes: 0, dislikes: 0, user: null }));
+let stats =
+  JSON.parse(localStorage.getItem("photoStats")) ||
+  Array.from({ length: images }, () => ({
+    likes: 0,
+    dislikes: 0,
+    user: null,
+  }));
 
 for (let i = 1; i <= images; i++) {
   const wrapper = document.createElement("div");
@@ -49,14 +54,14 @@ for (let i = 1; i <= images; i++) {
       class="w-full h-auto rounded-lg transition-transform duration-300 group-hover:scale-105 cursor-pointer">
     <div class="mt-2 bg-white dark:bg-background-dark rounded-lg p-3 shadow text-primary">
       <p class="text-sm mb-2">${comments[i - 1]}</p>
-      <div class="flex items-center space-x-4">
-        <button class="like-btn flex items-center space-x-2 px-2 py-1 bg-green-100 text-green-700 rounded hover:bg-green-200" data-id="${i}">
-          <img src="icon/like.svg" alt="Like" class="w-5 h-5">
-          <span>${stats[i - 1].likes}</span>
+      <div class="flex items-center space-x-4 text-sm">
+        <button class="like-btn flex items-center space-x-1 transition" data-id="${i}">
+          <img src="icon/like.svg" alt="Like" class="w-5 h-5 opacity-60 icon-hover transition">
+          <span class="text-gray-500 transition">${stats[i - 1].likes}</span>
         </button>
-        <button class="dislike-btn flex items-center space-x-2 px-2 py-1 bg-red-100 text-red-700 rounded hover:bg-red-200" data-id="${i}">
-          <img src="icon/deslike.svg" alt="Dislike" class="w-5 h-5">
-          <span>${stats[i - 1].dislikes}</span>
+        <button class="dislike-btn flex items-center space-x-1 transition" data-id="${i}">
+          <img src="icon/deslike.svg" alt="Dislike" class="w-5 h-5 opacity-60 icon-hover transition">
+          <span class="text-gray-500 transition">${stats[i - 1].dislikes}</span>
         </button>
       </div>
     </div>
@@ -67,6 +72,7 @@ for (let i = 1; i <= images; i++) {
   });
 
   gallery.appendChild(wrapper);
+  updateCounts(i); // применяем подсветку при загрузке
 }
 
 // --------- Модальное окно -----------
@@ -85,16 +91,18 @@ function openModal(id) {
   modalImg.src = `img/img${id}.png`;
   modalComment.textContent = comments[id - 1];
 
-  // Обновляем счётчики из stats
-  modalLikeBtn.querySelector("span").textContent = stats[id - 1].likes;
-  modalDislikeBtn.querySelector("span").textContent = stats[id - 1].dislikes;
-
-  // Привязываем data-id
+  // Обновляем счётчики и подсветку
   modalLikeBtn.setAttribute("data-id", id);
   modalDislikeBtn.setAttribute("data-id", id);
+  updateCounts(id);
 
   modal.classList.remove("hidden");
   modal.classList.add("flex");
+
+  // Плавное проявление фото
+  modalImg.classList.remove("show");
+  modalImg.classList.add("fade-in");
+  setTimeout(() => modalImg.classList.add("show"), 10);
 }
 
 closeModal.addEventListener("click", () => {
@@ -150,9 +158,38 @@ function toggleReaction(id, type) {
 }
 
 function updateCounts(id) {
-  const allLikeSpans = document.querySelectorAll(`.like-btn[data-id="${id}"] span`);
-  const allDislikeSpans = document.querySelectorAll(`.dislike-btn[data-id="${id}"] span`);
+  const item = stats[id - 1];
 
-  allLikeSpans.forEach(span => (span.textContent = stats[id - 1].likes));
-  allDislikeSpans.forEach(span => (span.textContent = stats[id - 1].dislikes));
+  const allLikeBtns = document.querySelectorAll(`.like-btn[data-id="${id}"]`);
+  const allDislikeBtns = document.querySelectorAll(`.dislike-btn[data-id="${id}"]`);
+
+  allLikeBtns.forEach((btn) => {
+    const span = btn.querySelector("span");
+    span.textContent = item.likes;
+
+    span.classList.remove("text-green-600", "font-semibold", "text-gray-500");
+    btn.querySelector("img").classList.remove("opacity-100");
+
+    if (item.user === "like") {
+      span.classList.add("text-green-600", "font-semibold");
+      btn.querySelector("img").classList.add("opacity-100");
+    } else {
+      span.classList.add("text-gray-500");
+    }
+  });
+
+  allDislikeBtns.forEach((btn) => {
+    const span = btn.querySelector("span");
+    span.textContent = item.dislikes;
+
+    span.classList.remove("text-red-600", "font-semibold", "text-gray-500");
+    btn.querySelector("img").classList.remove("opacity-100");
+
+    if (item.user === "dislike") {
+      span.classList.add("text-red-600", "font-semibold");
+      btn.querySelector("img").classList.add("opacity-100");
+    } else {
+      span.classList.add("text-gray-500");
+    }
+  });
 }

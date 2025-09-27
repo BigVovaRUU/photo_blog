@@ -53,26 +53,27 @@
     </div>
   </main>
 
-  <!-- Модальное окно -->
-  <div id="modal" class="fixed inset-0 hidden items-center justify-center bg-black/70 z-50">
+    <!-- Модальное окно -->
+    <div id="modal" class="fixed inset-0 hidden items-center justify-center bg-black/70 z-50">
     <div class="relative max-w-3xl w-full p-4">
-      <button id="closeModal" class="absolute top-2 right-2 text-white text-2xl">&times;</button>
-      <img id="modalImg" src="" alt="Modal image" class="rounded-lg mx-auto max-h-[80vh]">
-      <div class="mt-4 bg-white dark:bg-background-dark rounded-lg p-4 shadow text-primary">
+        <button id="closeModal" class="absolute top-2 right-2 text-white text-2xl">&times;</button>
+        <img id="modalImg" src="" alt="Modal image" class="rounded-lg mx-auto max-h-[80vh] fade-in">
+
+        <div class="mt-4 bg-white dark:bg-background-dark rounded-lg p-4 shadow text-primary">
         <p id="modalComment" class="mb-3">Комментарий к фото...</p>
-        <div class="flex items-center space-x-4">
-          <button class="like-btn flex items-center space-x-2 px-3 py-1 bg-green-100 text-green-700 rounded hover:bg-green-200">
-            <img src="icon/like.svg" alt="Like" class="w-5 h-5">
-            <span>0</span>
-          </button>
-          <button class="dislike-btn flex items-center space-x-2 px-3 py-1 bg-red-100 text-red-700 rounded hover:bg-red-200">
-            <img src="icon/deslike.svg" alt="Dislike" class="w-5 h-5">
-            <span>0</span>
-          </button>
+        <div class="flex items-center space-x-4 text-sm">
+            <button class="like-btn flex items-center space-x-1 transition" data-id="">
+            <img src="icon/like.svg" alt="Like" class="w-6 h-6 opacity-60 icon-hover transition">
+            <span class="text-gray-500">0</span>
+            </button>
+            <button class="dislike-btn flex items-center space-x-1 transition" data-id="">
+            <img src="icon/deslike.svg" alt="Dislike" class="w-6 h-6 opacity-60 icon-hover transition">
+            <span class="text-gray-500">0</span>
+            </button>
         </div>
-      </div>
+        </div>
     </div>
-  </div>
+    </div>
 
   <!-- FOOTER -->
   <footer class="bg-background-light dark:bg-background-dark border-t border-primary/10">
