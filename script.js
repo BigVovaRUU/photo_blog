@@ -1,195 +1,178 @@
-// Tailwind config
-tailwind.config = {
-  darkMode: "class",
-  theme: {
-    extend: {
-      colors: {
-        primary: "#364049",
-        "background-light": "#f7f7f7",
-        "background-dark": "#17191b",
-      },
-      fontFamily: {
-        display: ["Public Sans"],
-      },
-      borderRadius: {
-        DEFAULT: "0.25rem",
-        lg: "0.5rem",
-        xl: "0.75rem",
-        full: "9999px",
-      },
-    },
-  },
-};
-
-// --------- Галерея -----------
+// === Галерея ===
 const gallery = document.getElementById("gallery");
-const images = 9;
 const comments = [
-  "Первое фото — красивый момент!",
-  "Второе фото — супер!",
-  "Третье фото — невероятное!",
-  "Четвёртое фото — огонь!",
-  "Пятое фото — шикарно!",
-  "Шестое фото — класс!",
-  "Седьмое фото — топ!",
-  "Восьмое фото — круто снято!",
-  "Девятое фото — вау!",
+  "Вечер в горах", "Закат у моря", "Город ночью",
+  "Прогулка в лесу", "Утро в деревне", "Снежные вершины",
+  "Осенний парк", "Летний день", "Зимний закат"
 ];
 
-// Загружаем состояние из localStorage
-let stats =
-  JSON.parse(localStorage.getItem("photoStats")) ||
-  Array.from({ length: images }, () => ({
-    likes: 0,
-    dislikes: 0,
-    user: null,
-  }));
+// Загружаем лайки/дизлайки из localStorage
+let stats = JSON.parse(localStorage.getItem("photoStats")) 
+          || Array.from({ length: 9 }, () => ({ likes: 0, dislikes: 0 }));
 
-for (let i = 1; i <= images; i++) {
-  const wrapper = document.createElement("div");
-  wrapper.className = "grid-item group";
+function saveStats() {
+  localStorage.setItem("photoStats", JSON.stringify(stats));
+}
 
-  wrapper.innerHTML = `
-    <img src="img/img${i}.png" alt="Gallery image ${i}"
-      class="w-full h-auto rounded-lg transition-transform duration-300 group-hover:scale-105 cursor-pointer">
-    <div class="mt-2 bg-white dark:bg-background-dark rounded-lg p-3 shadow text-primary">
-      <p class="text-sm mb-2">${comments[i - 1]}</p>
-      <div class="flex items-center space-x-4 text-sm">
-        <button class="like-btn flex items-center space-x-1 transition" data-id="${i}">
-          <img src="icon/like.svg" alt="Like" class="w-5 h-5 opacity-60 icon-hover transition">
-          <span class="text-gray-500 transition">${stats[i - 1].likes}</span>
+// Рендер карточек
+for (let i = 1; i <= 9; i++) {
+  const card = document.createElement("div");
+  card.className = "photo-card cursor-pointer";
+  card.innerHTML = `
+    <div class="photo-frame">
+      <img src="img/img${i}.png" alt="Gallery image ${i}">
+    </div>
+    <div class="photo-caption">
+      <p>${comments[i - 1]}</p>
+      <div class="photo-actions">
+        <button class="like-btn" data-id="${i}">
+          <img src="icon/like.svg" alt="Like"><span>${stats[i - 1].likes}</span>
         </button>
-        <button class="dislike-btn flex items-center space-x-1 transition" data-id="${i}">
-          <img src="icon/deslike.svg" alt="Dislike" class="w-5 h-5 opacity-60 icon-hover transition">
-          <span class="text-gray-500 transition">${stats[i - 1].dislikes}</span>
+        <button class="dislike-btn" data-id="${i}">
+          <img src="icon/deslike.svg" alt="Dislike"><span>${stats[i - 1].dislikes}</span>
         </button>
       </div>
     </div>
   `;
-
-  wrapper.querySelector("img").addEventListener("click", () => {
-    openModal(i);
-  });
-
-  gallery.appendChild(wrapper);
-  updateCounts(i); // применяем подсветку при загрузке
+  gallery.appendChild(card);
 }
 
-// --------- Модальное окно -----------
+// === Модальное окно ===
 const modal = document.getElementById("modal");
 const modalImg = document.getElementById("modalImg");
 const modalComment = document.getElementById("modalComment");
 const closeModal = document.getElementById("closeModal");
+let currentIndex = 0;
 
-const modalLikeBtn = modal.querySelector(".like-btn");
-const modalDislikeBtn = modal.querySelector(".dislike-btn");
-
-let currentId = null;
-
-function openModal(id) {
-  currentId = id;
-  modalImg.src = `img/img${id}.png`;
-  modalComment.textContent = comments[id - 1];
-
-  // Обновляем счётчики и подсветку
-  modalLikeBtn.setAttribute("data-id", id);
-  modalDislikeBtn.setAttribute("data-id", id);
-  updateCounts(id);
-
+function openPhoto(index) {
+  currentIndex = index;
+  modalImg.src = `img/img${index + 1}.png`;
+  modalComment.textContent = comments[index];
   modal.classList.remove("hidden");
-  modal.classList.add("flex");
+  document.body.classList.add("no-scroll");
+  setTimeout(() => modalImg.classList.add("show"), 50);
 
-  // Плавное проявление фото
-  modalImg.classList.remove("show");
-  modalImg.classList.add("fade-in");
-  setTimeout(() => modalImg.classList.add("show"), 10);
+  // обновляем лайки/дизлайки
+  document.querySelector("#modal .like-btn").dataset.id = index + 1;
+  document.querySelector("#modal .dislike-btn").dataset.id = index + 1;
+  updateButtons(index + 1);
 }
 
-closeModal.addEventListener("click", () => {
+function close() {
   modal.classList.add("hidden");
-  modal.classList.remove("flex");
+  document.body.classList.remove("no-scroll");
+  modalImg.classList.remove("show");
+}
+
+// Открытие фото
+gallery.addEventListener("click", e => {
+  const img = e.target.closest("img");
+  if (!img) return;
+  const index = +img.alt.match(/\d+/)[0] - 1;
+  openPhoto(index);
 });
 
-modal.addEventListener("click", (e) => {
-  if (e.target === modal) {
-    modal.classList.add("hidden");
-    modal.classList.remove("flex");
+// Закрытие фото
+closeModal.addEventListener("click", () => close());
+modal.addEventListener("click", e => { if (e.target === modal) close(); });
+document.addEventListener("keydown", e => { if (e.key === "Escape") close(); });
+
+// === Перелистывание ===
+document.getElementById("prevPhoto").addEventListener("click", () => {
+  currentIndex = (currentIndex - 1 + comments.length) % comments.length;
+  openPhoto(currentIndex);
+});
+document.getElementById("nextPhoto").addEventListener("click", () => {
+  currentIndex = (currentIndex + 1) % comments.length;
+  openPhoto(currentIndex);
+});
+document.addEventListener("keydown", e => {
+  if (modal.classList.contains("hidden")) return;
+  if (e.key === "ArrowLeft") {
+    currentIndex = (currentIndex - 1 + comments.length) % comments.length;
+    openPhoto(currentIndex);
+  }
+  if (e.key === "ArrowRight") {
+    currentIndex = (currentIndex + 1) % comments.length;
+    openPhoto(currentIndex);
+  }
+});
+// свайпы
+let startX = 0;
+modal.addEventListener("touchstart", e => { startX = e.touches[0].clientX; });
+modal.addEventListener("touchend", e => {
+  const endX = e.changedTouches[0].clientX;
+  if (endX - startX > 50) {
+    currentIndex = (currentIndex - 1 + comments.length) % comments.length;
+    openPhoto(currentIndex);
+  } else if (startX - endX > 50) {
+    currentIndex = (currentIndex + 1) % comments.length;
+    openPhoto(currentIndex);
   }
 });
 
-// --------- Лайки/дизлайки (ограничение: 1 на фото) -----------
-document.addEventListener("click", (e) => {
+// === Лайки / дизлайки ===
+function updateButtons(id) {
+  document.querySelectorAll(`[data-id="${id}"]`).forEach(btn => {
+    const span = btn.querySelector("span");
+    if (btn.classList.contains("like-btn")) span.textContent = stats[id - 1].likes;
+    if (btn.classList.contains("dislike-btn")) span.textContent = stats[id - 1].dislikes;
+  });
+}
+
+document.addEventListener("click", e => {
   const likeBtn = e.target.closest(".like-btn");
   const dislikeBtn = e.target.closest(".dislike-btn");
 
   if (likeBtn) {
-    const id = parseInt(likeBtn.getAttribute("data-id"));
-    toggleReaction(id, "like");
+    const id = +likeBtn.dataset.id;
+    if (likeBtn.classList.contains("active")) {
+      stats[id - 1].likes--; 
+      likeBtn.classList.remove("active");
+    } else {
+      stats[id - 1].likes++;
+      const activeDis = document.querySelector(`.dislike-btn[data-id="${id}"].active`);
+      if (activeDis) { stats[id - 1].dislikes--; activeDis.classList.remove("active"); }
+      likeBtn.classList.add("active");
+    }
+    updateButtons(id);
+    saveStats(); // 💾 сохраняем
   }
 
   if (dislikeBtn) {
-    const id = parseInt(dislikeBtn.getAttribute("data-id"));
-    toggleReaction(id, "dislike");
+    const id = +dislikeBtn.dataset.id;
+    if (dislikeBtn.classList.contains("active")) {
+      stats[id - 1].dislikes--; 
+      dislikeBtn.classList.remove("active");
+    } else {
+      stats[id - 1].dislikes++;
+      const activeLike = document.querySelector(`.like-btn[data-id="${id}"].active`);
+      if (activeLike) { stats[id - 1].likes--; activeLike.classList.remove("active"); }
+      dislikeBtn.classList.add("active");
+    }
+    updateButtons(id);
+    saveStats(); // 💾 сохраняем
   }
 });
 
-function toggleReaction(id, type) {
-  const item = stats[id - 1];
-
-  if (item.user === type) {
-    // снимаем реакцию
-    item.user = null;
-    item[type === "like" ? "likes" : "dislikes"]--;
+// === Переключение темы ===
+const themeToggle = document.getElementById("themeToggle");
+const themeIcon = document.getElementById("themeIcon");
+if (localStorage.getItem("theme") === "dark" ||
+    (!localStorage.getItem("theme") && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+  document.documentElement.classList.add("dark"); setIcon("moon");
+} else { setIcon("sun"); }
+themeToggle.addEventListener("click", () => {
+  document.documentElement.classList.toggle("dark");
+  const isDark = document.documentElement.classList.contains("dark");
+  localStorage.setItem("theme", isDark ? "dark" : "light");
+  setIcon(isDark ? "moon" : "sun");
+});
+function setIcon(mode) {
+  if (mode === "moon") {
+    themeIcon.innerHTML = `<path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"></path>`;
   } else {
-    // убираем противоположную реакцию если была
-    if (item.user === "like") item.likes--;
-    if (item.user === "dislike") item.dislikes--;
-
-    // ставим новую реакцию
-    item.user = type;
-    item[type === "like" ? "likes" : "dislikes"]++;
+    themeIcon.innerHTML = `<circle cx="12" cy="12" r="5"></circle>
+      <path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path>`;
   }
-
-  // сохраняем
-  localStorage.setItem("photoStats", JSON.stringify(stats));
-
-  // обновляем UI
-  updateCounts(id);
-}
-
-function updateCounts(id) {
-  const item = stats[id - 1];
-
-  const allLikeBtns = document.querySelectorAll(`.like-btn[data-id="${id}"]`);
-  const allDislikeBtns = document.querySelectorAll(`.dislike-btn[data-id="${id}"]`);
-
-  allLikeBtns.forEach((btn) => {
-    const span = btn.querySelector("span");
-    span.textContent = item.likes;
-
-    span.classList.remove("text-green-600", "font-semibold", "text-gray-500");
-    btn.querySelector("img").classList.remove("opacity-100");
-
-    if (item.user === "like") {
-      span.classList.add("text-green-600", "font-semibold");
-      btn.querySelector("img").classList.add("opacity-100");
-    } else {
-      span.classList.add("text-gray-500");
-    }
-  });
-
-  allDislikeBtns.forEach((btn) => {
-    const span = btn.querySelector("span");
-    span.textContent = item.dislikes;
-
-    span.classList.remove("text-red-600", "font-semibold", "text-gray-500");
-    btn.querySelector("img").classList.remove("opacity-100");
-
-    if (item.user === "dislike") {
-      span.classList.add("text-red-600", "font-semibold");
-      btn.querySelector("img").classList.add("opacity-100");
-    } else {
-      span.classList.add("text-gray-500");
-    }
-  });
 }
