@@ -13,32 +13,17 @@ const COMMENTS = [
 // ============================
 // Структура элемента: { likes: number, dislikes: number, user: 'like' | 'dislike' | null }
 function loadStats() {
-  const raw = localStorage.getItem("photoStats");
-  let data;
-  try {
-    data = JSON.parse(raw);
-  } catch {
-    data = null;
-  }
-  // миграция и валидация
-  if (!Array.isArray(data) || data.length !== IMAGES_COUNT) {
-    data = Array.from({ length: IMAGES_COUNT }, () => ({
-      likes: 0,
-      dislikes: 0,
-      user: null,
-    }));
-  } else {
-    data = data.map((it) => ({
-      likes: Number.isFinite(it?.likes) ? Math.max(0, Math.trunc(it.likes)) : 0,
-      dislikes: Number.isFinite(it?.dislikes) ? Math.max(0, Math.trunc(it.dislikes)) : 0,
-      user: it?.user === "like" || it?.user === "dislike" ? it.user : null,
-    }));
-  }
-  return data;
+  return Array.from({ length: IMAGES_COUNT }, () => ({
+    likes: 0,
+    dislikes: 0,
+    user: null,
+  }));
 }
+
 function saveStats() {
-  localStorage.setItem("photoStats", JSON.stringify(stats));
+  // Теперь ничего не сохраняем → лайки/дизлайки сбрасываются при перезагрузке
 }
+
 let stats = loadStats();
 
 // ============================
